@@ -1,22 +1,22 @@
 import json
 import os
 
-# File to store tasks
+# File to store tasks persistently
 TASKS_FILE = "tasks.json"
 
-# Load tasks from the file
+# Function to load tasks from a file
 def load_tasks():
     if os.path.exists(TASKS_FILE):
         with open(TASKS_FILE, "r") as file:
             return json.load(file)
     return []
 
-# Save tasks to the file
+# Function to save tasks to a file
 def save_tasks(tasks):
     with open(TASKS_FILE, "w") as file:
         json.dump(tasks, file, indent=4)
 
-# Display tasks
+# Function to display tasks
 def display_tasks(tasks):
     if not tasks:
         print("No tasks available.")
@@ -26,66 +26,9 @@ def display_tasks(tasks):
             status = "✔" if task["completed"] else "✘"
             print(f"{idx}. [{status}] {task['title']} - {task['description'] or 'No description'}")
 
-# Add a task
+# Function to add a new task
 def add_task(tasks):
     title = input("Enter task title: ")
     description = input("Enter task description (optional): ")
     tasks.append({"title": title, "description": description, "completed": False})
-    print("Task added successfully!")
-
-# Update a task
-def update_task(tasks):
-    display_tasks(tasks)
-    try:
-        task_num = int(input("Enter the task number to update: ")) - 1
-        if 0 <= task_num < len(tasks):
-            tasks[task_num]["completed"] = not tasks[task_num]["completed"]
-            status = "completed" if tasks[task_num]["completed"] else "incomplete"
-            print(f"Task marked as {status}.")
-        else:
-            print("Invalid task number.")
-    except ValueError:
-        print("Please enter a valid number.")
-
-# Delete a task
-def delete_task(tasks):
-    display_tasks(tasks)
-    try:
-        task_num = int(input("Enter the task number to delete: ")) - 1
-        if 0 <= task_num < len(tasks):
-            deleted_task = tasks.pop(task_num)
-            print(f"Deleted task: {deleted_task['title']}")
-        else:
-            print("Invalid task number.")
-    except ValueError:
-        print("Please enter a valid number.")
-
-# Main application loop
-def main():
-    tasks = load_tasks()
-    while True:
-        print("\n--- To-Do List Menu ---")
-        print("1. View tasks")
-        print("2. Add a task")
-        print("3. Update a task (mark as complete/incomplete)")
-        print("4. Delete a task")
-        print("5. Exit")
-
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            display_tasks(tasks)
-        elif choice == "2":
-            add_task(tasks)
-        elif choice == "3":
-            update_task(tasks)
-        elif choice == "4":
-            delete_task(tasks)
-        elif choice == "5":
-            save_tasks(tasks)
-            print("Tasks saved. Goodbye!")
-            break
-        else:
-            print("Invalid choice. Please select a valid option.")
-
-if __name__ == "__main__":
-    main()
+    print("
