@@ -1,0 +1,54 @@
+import random
+import string
+
+def generate_password(length, complexity):
+    # Define character sets based on complexity
+    lower = string.ascii_lowercase
+    upper = string.ascii_uppercase
+    digits = string.digits
+    symbols = string.punctuation
+    
+    # Combine character sets based on user's desired complexity
+    if complexity == 1:
+        characters = lower
+    elif complexity == 2:
+        characters = lower + upper
+    elif complexity == 3:
+        characters = lower + upper + digits
+    elif complexity == 4:
+        characters = lower + upper + digits + symbols
+    else:
+        print("Invalid complexity level. Defaulting to basic lowercase.")
+        characters = lower
+
+    # Generate a random password
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
+def main():
+    print("Welcome to the Password Generator!")
+    
+    try:
+        # Prompt user for password length
+        length = int(input("Enter the desired password length (minimum 4): "))
+        if length < 4:
+            print("Password length should be at least 4. Setting to default length of 8.")
+            length = 8
+        
+        # Prompt user for complexity level
+        print("\nSelect password complexity:")
+        print("1. Lowercase letters only")
+        print("2. Lowercase and uppercase letters")
+        print("3. Letters and digits")
+        print("4. Letters, digits, and symbols")
+        complexity = int(input("Enter the complexity level (1/2/3/4): "))
+        
+        # Generate and display the password
+        password = generate_password(length, complexity)
+        print(f"\nGenerated Password: {password}")
+    
+    except ValueError:
+        print("Invalid input. Please enter numeric values for length and complexity.")
+
+if __name__ == "__main__":
+    main()
